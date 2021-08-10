@@ -35,6 +35,10 @@ app.get("/", (req, res) => {
 });
 
 // routes
+require('./app/routes/stats.routes')(app);
+require('./app/routes/news.routes')(app);
+require('./app/routes/vaccinationCentres.routes.js')(app);
+// require('./app/routes/vaccinesArg.routes')(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 3000;
