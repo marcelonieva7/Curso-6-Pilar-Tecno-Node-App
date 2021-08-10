@@ -19,15 +19,15 @@ app.use(express.urlencoded({ extended: true }));
 
 const db = require("./app/models");
 
-db.mongoose
-  .connect(dbConfig.dbUri, dbConfig.mongooseOptions)
-  .then(() => {
-    console.log("Successfully connect to MongoDB");
-  })
-  .catch(err => {
-    console.error("Connection error", err);
-    process.exit();
-  });
+// db.mongoose
+//   .connect(dbConfig.dbUri, dbConfig.mongooseOptions)
+//   .then(() => {
+//     console.log("Successfully connect to MongoDB");
+//   })
+//   .catch(err => {
+//     console.error("Connection error", err);
+//     process.exit();
+//   });
 
 // simple route
 app.get("/", (req, res) => {
