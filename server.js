@@ -22,7 +22,7 @@ const db = require("./app/models");
 db.mongoose
   .connect(dbConfig.dbUri, dbConfig.mongooseOptions)
   .then(() => {
-    console.log("Successfully connect to MongoDB.");
+    console.log("Successfully connect to MongoDB");
   })
   .catch(err => {
     console.error("Connection error", err);
