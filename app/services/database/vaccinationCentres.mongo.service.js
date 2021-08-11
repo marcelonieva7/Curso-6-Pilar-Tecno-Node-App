@@ -34,11 +34,9 @@ const queryAll = async () => {
 
 const updateOne = async (id, toUpdate) => {
     try {
-        const updateCentre = await vaccinationCentreModel.updateOne({_id: id}, toUpdate, (err) => {
-            err && console.error(err)
-        })
-        const {deletedCount} = updateCentre
-        if (!deletedCount) return null;
+        const updateCentre = await vaccinationCentreModel.updateOne({_id: id}, toUpdate)
+        const {n} = updateCentre
+        if (!n) return null
         return toUpdate
     }
     catch(err) {
@@ -57,6 +55,7 @@ const deleteOne = async (id) => {
         return {"deleted": id}
     }
     catch(err) {
+        console.log(err)
         throw err
     }
 }
