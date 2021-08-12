@@ -1,4 +1,4 @@
-const centersMongoService = require('../services/database/vaccinationCentres.mongo.service')
+const { queryAll, queryOne, deleteOne, saveOne, updateOne } = require('../services/database/vaccinationCentres.mongo.service')
 const centreValidation = require('../models/validation/centreValidation.model')
 const idValidation = require('../models/validation/documentIdValidation.model')
 
@@ -14,70 +14,91 @@ const internalError = {
 
 const getAllCentres = async (req, res) => {
     try {
-        const data = await centersMongoService.queryAll()
+        const data = await queryAll()
         res.status(200).json(data)
     }
-    catch {
+    catch (err) {
+        console.log(err)
         res.status(500).json(internalError)
     }
-};
+}
 
 const getCentre = async (req, res) => {
     try {
         const { centreId } = req.params
-        const { error, value } = idValidation.validate(centreId)
-        error ? 
-            res.status(400).json(error.details) : (
-            data = await centersMongoService.queryOne(value),
-            data ? res.status(200).json(data) : res.status(400).json(invalidId))
+        const validId = await idValidation.validateAsync(centreId)
+        const data = await queryOne(validId)
+        data ? res.status(200).json(data) : res.status(400).json(invalidId)
     }
-    catch {
-        res.status(500).json(internalError)
+    catch (err) {
+        if (err?.details) {
+            console.log(err.details)
+            res.status(400).json(err.details)
+        }
+        else {
+            console.log(err)
+            res.status(500).json(internalError)
+        }
     }
-};
+}
 
 const deleteCentre = async (req, res) => {
     try {
         const { centreId } = req.params
-        const { error, value } = idValidation.validate(centreId)
-        error ? 
-            res.status(400).json(error.details) : (
-            data = await centersMongoService.deleteOne(value),
-            data ? res.status(200).json(data) : res.status(400).json(invalidId))
+        const validId = await idValidation.validateAsync(centreId)
+        const data = await deleteOne(validId)
+        data ? res.status(200).json(data) : res.status(400).json(invalidId)
     }
-    catch {
-        res.status(500).json(internalError)
+    catch (err) {
+        if (err?.details) {
+            console.log(err.details)
+            res.status(400).json(err.details)
+        }
+        else {
+            console.log(err)
+            res.status(500).json(internalError)
+        }
     }
-};
+}
 
 const saveCentre = async (req, res) => {
     try {
         const { body } = req
-        const { value, error } = centreValidation.validate(body)
-        error ? 
-            res.status(400).json(error.details) : (
-            centre = await centersMongoService.saveOne(value),
-            res.status(200).json({"added": centre}))
+        const validBody = await centreValidation.validateAsync(body)
+        const centre = await saveOne(validBody)
+        res.status(200).json({"added": centre})
     }
-    catch {
-        res.status(500).json(internalError)
+    catch (err) {
+        if (err?.details) {
+            console.log(err.details)
+            res.status(400).json(err.details)
+        }
+        else {
+            console.log(err)
+            res.status(500).json(internalError)
+        }
     }
-};
+}
 
 const updateCentre = async (req, res) => {
     try {
         const { body, params:{centreId} } = req
-        const { error:errorId, value:id } = idValidation.validate(centreId)
-        const { error, value } = centreValidation.validate(body)
-        error || errorId ?
-            res.status(400).json(error?.details || errorId?.details) : (
-            data = await centersMongoService.updateOne(id, value),
-            console.log(data),
-            data ? res.status(200).json(data) : res.status(400).json(invalidId))
+        const validBody = await centreValidation.validateAsync(body)
+        const validId = await idValidation.validateAsync(centreId)
+        const updated = await updateOne(validId, validBody)
+        updated ? res.status(200).json(updated) : res.status(400).json(invalidId)
     }
-    catch {
-        res.status(500).json(internalError)
+    catch (err) {
+        if (err?.details) {
+            console.log(err.details)
+            const {message} = err.details[0]
+            res.status(400).json({"code": "bad_request", "message": message})
+        }
+        else {
+            console.log(err)
+            res.status(500).json(internalError)
+        }
     }
-};
+}
 
-module.exports = { getAllCentres, getCentre, deleteCentre, saveCentre, updateCentre };
+module.exports = { getAllCentres, getCentre, deleteCentre, saveCentre, updateCentre }
