@@ -9,7 +9,7 @@ const centreSchema = Joi.object({
             .required(),
         lon: Joi.number()
             .required()
-    }),
+    }).required(),
     adress: Joi.string()
         .required()
         .min(5)

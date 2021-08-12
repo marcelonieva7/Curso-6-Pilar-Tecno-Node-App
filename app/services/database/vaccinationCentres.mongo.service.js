@@ -1,4 +1,4 @@
-const vaccinationCentreModel = require('../../models/vaccinationCentre.model');
+const vaccinationCentreModel = require('../../models/mongodb/vaccinationCentre.model');
 
 const saveOne = async (data) => {
     const vaccinationCentre = new vaccinationCentreModel(data)
