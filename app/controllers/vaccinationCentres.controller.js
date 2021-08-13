@@ -33,7 +33,8 @@ const getCentre = async (req, res) => {
     catch (err) {
         if (err?.details) {
             console.log(err.details)
-            res.status(400).json(err.details)
+            const {message} = err.details[0]
+            res.status(400).json({"code": "bad_request", "message": message})
         }
         else {
             console.log(err)
@@ -52,7 +53,8 @@ const deleteCentre = async (req, res) => {
     catch (err) {
         if (err?.details) {
             console.log(err.details)
-            res.status(400).json(err.details)
+            const {message} = err.details[0]
+            res.status(400).json({"code": "bad_request", "message": message})
         }
         else {
             console.log(err)
@@ -71,7 +73,8 @@ const saveCentre = async (req, res) => {
     catch (err) {
         if (err?.details) {
             console.log(err.details)
-            res.status(400).json(err.details)
+            const {message} = err.details[0]
+            res.status(400).json({"code": "bad_request", "message": message})
         }
         else {
             console.log(err)

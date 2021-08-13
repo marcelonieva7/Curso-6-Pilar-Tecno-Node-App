@@ -16,7 +16,6 @@ const centreSchema = Joi.object({
         .max(30),
     name: Joi.string()
         .required()
-        .alphanum()
         .min(5)
         .max(30)
 })

@@ -37,7 +37,7 @@ const updateOne = async (id, toUpdate) => {
         const updateCentre = await vaccinationCentreModel.updateOne({_id: id}, toUpdate)
         const {n} = updateCentre
         if (!n) return null
-        return toUpdate
+        return {"updated": toUpdate}
     }
     catch(err) {
         throw err
