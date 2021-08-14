@@ -1,4 +1,4 @@
-const VCcontroller = require('../controllers/vaccinationCentres.controller.js')
+const VCcontroller = require('../controllers/vaccinationCentres.controller')
 
 module.exports = function(app) {
   app.use(function(req, res, next) {
