@@ -14,8 +14,8 @@ router.use((req, res, next) => {
   )
   next()
 })
-router.get("/google", passport.authenticate("sign-in-google", options))
-router.get("/google/callback", passport.authenticate("sign-in-google", options), generateToken)
+router.get("/google", passport.authenticate("sign-in-google", options), generateToken)
+router.get("/google/callback", passport.authenticate("sign-in-google", options))
 
 router.get('/github',passport.authenticate('github', { session: false}))
 router.get('/github/callback', passport.authenticate('github', { session: false }), generateToken)

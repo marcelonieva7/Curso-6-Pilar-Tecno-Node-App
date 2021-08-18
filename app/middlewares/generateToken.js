@@ -7,7 +7,7 @@ module.exports = ({user}, res) => {
       expiresIn: 60 * 60 * 48
     })
     res.cookie('token', token)        
-    res.redirect('http://localhost:3000/stats/world')
+    res.redirect('http://localhost:3000/')
   }
   else {
     res.redirect('http://localhost:3000/login')
