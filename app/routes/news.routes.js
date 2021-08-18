@@ -1,13 +1,16 @@
-const covidTweetsController = require('../controllers/covidTweets.controller')
+const router = require('express').Router()
+const { getTweets } = require('../controllers/covidTweets.controller')
+const { isAdmin } = require('../middlewares/authJWT')
+const passport = require('passport')
 
-module.exports = function(app) {
-  app.use(function(req, res, next) {
-    res.header(
-      "Access-Control-Allow-Headers",
-      "x-access-token, Origin, Content-Type, Accept"
-    );
-    next();
-  });
+router.use((req, res, next) => {
+  res.header(
+    "Access-Control-Allow-Headers",
+    "x-access-token, Origin, Content-Type, Accept"
+  )
+  next()
+})
   
-  app.get("/news/tweets", covidTweetsController.getTweets); 
-};
+router.get("/tweets", [passport.authenticate('json-web-token', { session : false }), isAdmin], getTweets)
+
+module.exports = router

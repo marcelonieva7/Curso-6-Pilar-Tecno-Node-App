@@ -1,12 +1,25 @@
 const express = require("express");
 const cors = require("cors");
 const dotenv = require('dotenv').config();
-const dbConfig = require("./app/config/db.config");
+const conectDB = require("./app/config/db.config");
+
+const statsRouter = require('./app/routes/stats.routes')
+const newsRouter = require('./app/routes/news.routes')
+const vaccinesRouter = require('./app/routes/vaccines.routes')
+const vaccinationCentresRouter = require('./app/routes/vaccinationCentres.routes')
+const authRouter = require('./app/routes/auth.routes')
+
+const passport = require('passport')
+const morgan = require("morgan")
 
 const app = express();
 
+require('./app/passport/verifyToken')
+require('./app/passport/strategies/googleAuth.strategy')
+require('./app/passport/strategies/githubAuth.strategy')
+
 const corsOptions = {
-  origin: "http://localhost:8081"
+  origin: "http://localhost:3000"
 };
 
 app.use(cors(corsOptions));
@@ -15,19 +28,14 @@ app.use(cors(corsOptions));
 app.use(express.json());
 
 // parse requests of content-type - application/x-www-form-urlencoded
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: false }));
 
-const db = require("./app/models/mongodb");
+// passport login
 
-db.mongoose
-  .connect(dbConfig.dbUri, dbConfig.mongooseOptions)
-  .then(() => {
-    console.log("Successfully connect to MongoDB");
-  })
-  .catch(err => {
-    console.error("Connection error", err);
-    process.exit();
-  });
+app.use(passport.initialize());
+app.use(morgan('dev'))
+
+conectDB()
 
 // home route
 app.get("/", (req, res) => {
@@ -35,10 +43,11 @@ app.get("/", (req, res) => {
 })
 
 // routes
-require('./app/routes/stats.routes')(app);
-require('./app/routes/news.routes')(app);
-require('./app/routes/vaccinationCentres.routes')(app);
-require('./app/routes/vaccines.routes')(app);
+app.use('/stats', statsRouter)
+app.use('/news', newsRouter)
+app.use('/vaccinationCentres', vaccinationCentresRouter)
+app.use('/vaccines', vaccinesRouter)
+app.use('/auth', authRouter)
 
 // set port, listen for requests
 const PORT = process.env.PORT || 3000;
