@@ -3,6 +3,7 @@ const GoogleStrategy = require("passport-google-oauth").OAuth2Strategy
 const clientId = process.env.GOOGLE_CLIENT_ID
 const clientSecret = process.env.GOOGLE_CLIENT_SECRET
 const userStrategy = require("../strategyCallback")
+const User = require('../../models/mongodb/user.model')
 
 passport.serializeUser((user, done) => {
   done(null, user.id)
@@ -17,7 +18,7 @@ passport.use("sign-in-google",new GoogleStrategy(
   {
     "clientID": clientId,
     "clientSecret": clientSecret,
-    "callbackURL": "http://localhost:3000/auth/google/callback",
+    "callbackURL": "https://covidcentre.herokuapp.com/auth/google/callback",
   },
   userStrategy
 ))

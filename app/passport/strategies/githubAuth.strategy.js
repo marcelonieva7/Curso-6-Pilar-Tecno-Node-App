@@ -8,7 +8,7 @@ passport.use('github', new GitHubStrategy(
   {
     clientID: githubId,
     clientSecret: githubSecret,
-    callbackURL: "http://localhost:3000/auth/github/callback"
+    callbackURL: "https://covidcentre.herokuapp.com/auth/github/callback"
   },
   userStrategy
 ))
