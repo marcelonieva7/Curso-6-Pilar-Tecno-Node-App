@@ -6,7 +6,7 @@ module.exports = ({user}, res) => {
     const token = jwt.sign({id: user._id, admin: user?.roles === 'Admin'}, secret, {
       expiresIn: 60 * 60 * 48
     })
-    res.cookie('token', token)        
+    res.json({'token': token})        
     res.redirect('http://localhost:3000/')
   }
   else {

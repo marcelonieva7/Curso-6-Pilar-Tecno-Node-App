@@ -18,7 +18,7 @@ passport.use("sign-in-google",new GoogleStrategy(
   {
     "clientID": clientId,
     "clientSecret": clientSecret,
-    "callbackURL": "http://localhost:3000/auth/google/callback",
+    "callbackURL": "https://covidcentre.herokuapp.com/auth/google/callback"
   },
   userStrategy
 ))
