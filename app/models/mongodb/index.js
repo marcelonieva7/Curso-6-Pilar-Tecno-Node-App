@@ -1,8 +1,9 @@
-const mongoose = require('mongoose');
-mongoose.Promise = global.Promise;
+const mongoose = require('mongoose')
 
-const db = {};
+mongoose.Promise = global.Promise
 
-db.mongoose = mongoose;
+const db = {}
 
-module.exports = db;
+db.mongoose = mongoose
+
+module.exports = db
