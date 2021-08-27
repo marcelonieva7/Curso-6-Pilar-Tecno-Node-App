@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+/* eslint-disable no-useless-catch */
 const VaccinationCentreModel = require('../../models/mongodb/vaccinationCentre.model')
 
 const saveOne = async data => {
@@ -35,7 +37,7 @@ const updateOne = async (id, toUpdate) => {
     const updateCentre = await VaccinationCentreModel.updateOne({ _id: id }, toUpdate)
     const { n } = updateCentre
     if (!n) return null
-    return { updated: toUpdate }
+    return { updated: { ...toUpdate, _id: id } }
   } catch (err) {
     throw err
   }
