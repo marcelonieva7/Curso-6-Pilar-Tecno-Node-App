@@ -13,7 +13,7 @@ const centreSchema = Joi.object({
   adress: Joi.string()
     .required()
     .min(5)
-    .max(30),
+    .max(50),
   name: Joi.string()
     .required()
     .min(5)
