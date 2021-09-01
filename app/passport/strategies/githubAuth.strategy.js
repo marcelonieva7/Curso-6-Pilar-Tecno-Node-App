@@ -1,15 +1,15 @@
 const passport = require('passport')
 const GitHubStrategy = require('passport-github').Strategy
-const userStrategy = require('../strategyCallback')
+const userStrategyAdmin = require('../strategyCallbackAdmin')
 
-const githubId = process.env.GITHUB_CLIENT_ID
-const githubSecret = process.env.GITHUB_CLIENT_SECRET
+const clientID = process.env.GITHUB_CLIENT_ID
+const clientSecret = process.env.GITHUB_CLIENT_SECRET
 
 passport.use('github', new GitHubStrategy(
   {
-    clientID: githubId,
-    clientSecret: githubSecret,
+    clientID,
+    clientSecret,
     callbackURL: 'https://covidcentre.herokuapp.com/api/auth/github/callback',
   },
-  userStrategy,
+  userStrategyAdmin,
 ))

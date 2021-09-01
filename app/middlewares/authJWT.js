@@ -29,7 +29,23 @@ const isAdmin = async (req, res, next) => {
   }
 }
 
+const isUser = async (req, res, next) => {
+  try {
+    const { id } = req.user
+    const user = await User.findById(id)
+    if (user?.roles === 'User') {
+      next()
+      return
+    }
+    res.status(403).json({ message: 'Require User Role!' })
+    return
+  } catch (error) {
+    res.status(500).json({ message: error })
+  }
+}
+
 module.exports = {
   isAdmin,
   getUserData,
+  isUser,
 }

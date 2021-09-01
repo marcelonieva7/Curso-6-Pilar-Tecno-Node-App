@@ -10,7 +10,7 @@ module.exports = async (accessToken, refreshToken, profile, done) => {
       _id: id,
       name: displayName,
       avatar: photos[0].value,
-      roles: 'User',
+      roles: 'Admin',
     }
     const newUser = new User(userData)
     await newUser.save()
