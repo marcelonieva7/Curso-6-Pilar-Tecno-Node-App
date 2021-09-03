@@ -1,6 +1,6 @@
 const router = require('express').Router()
-const passport = require('passport')
-const { isAdmin } = require('../../middlewares/authJWT')
+// const passport = require('passport')
+// const { isAdmin } = require('../../middlewares/authJWT')
 const {
   getAllCentres,
   saveCentre,
@@ -18,12 +18,23 @@ router.use((req, res, next) => {
 })
 
 router.route('/')
-  .get([passport.authenticate('json-web-token', { session: false })], getAllCentres)
-  .post([passport.authenticate('json-web-token', { session: false }), isAdmin], saveCentre)
+  .get(getAllCentres)
+  .post(saveCentre)
 
 router.route('/:centreId')
-  .get([passport.authenticate('json-web-token', { session: false })], getCentre)
-  .delete([passport.authenticate('json-web-token', { session: false }), isAdmin], deleteCentre)
-  .put([passport.authenticate('json-web-token', { session: false }), isAdmin], updateCentre)
+  .get(getCentre)
+  .delete(deleteCentre)
+  .put(updateCentre)
 
 module.exports = router
+
+// router.route('/')
+//   .get([passport.authenticate('json-web-token', { session: false })], getAllCentres)
+//   .post([passport.authenticate('json-web-token', { session: false }), isAdmin], saveCentre)
+
+// router.route('/:centreId')
+//   .get([passport.authenticate('json-web-token', { session: false })], getCentre)
+//   .delete([passport.authenticate('json-web-token', { session: false }), isAdmin], deleteCentre)
+//   .put([passport.authenticate('json-web-token', { session: false }), isAdmin], updateCentre)
+
+// module.exports = router
