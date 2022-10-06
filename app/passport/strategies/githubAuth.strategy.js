@@ -9,7 +9,7 @@ passport.use('github', new GitHubStrategy(
   {
     clientID,
     clientSecret,
-    callbackURL: 'https://covidcentre.herokuapp.com/api/auth/github/callback',
+    callbackURL: 'https://covidinfo.onrender.com/api/auth/github/callback',
   },
   userStrategyAdmin,
 ))
